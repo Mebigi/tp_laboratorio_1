@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1522865083 source:c:\1ercuatrimestretecnicatura\clases_prog\tp1\funciones.c
+	"funciones.h"
+
+1522865083 c:\1ercuatrimestretecnicatura\clases_prog\tp1\funciones.h
+
+1522965776 source:c:\1ercuatrimestretecnicatura\clases_prog\tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+	<conio.h>
+
+1522756624 source:c:\test\mercedesbigi\clases_prog\tp1\funciones.c
+	"funciones.h"
+
+1522756624 c:\test\mercedesbigi\clases_prog\tp1\funciones.h
+
+1522756624 source:c:\test\mercedesbigi\clases_prog\tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+	<conio.h>
+
+1523293438 source:c:\1ercuatrimestretecnicatura\tp1\funciones.c
+	"funciones.h"
+	<stdio.h>
+	<stdlib.h>
+
+1523293221 c:\1ercuatrimestretecnicatura\tp1\funciones.h
+
+1523293601 source:c:\1ercuatrimestretecnicatura\tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
