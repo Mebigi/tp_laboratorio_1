@@ -1,0 +1,42 @@
+# depslib dependency file v1.0
+1525225457 source:c:\programacion1cuatri\tp_02\funciones.c
+	"funciones.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1525224646 c:\programacion1cuatri\tp_02\funciones.h
+
+1525225773 source:c:\programacion1cuatri\tp_02\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1525472554 source:c:\1ercuatrimestretecnicatura\tp_laboratorio_2\funciones.c
+	"funciones.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1525472565 c:\1ercuatrimestretecnicatura\tp_laboratorio_2\funciones.h
+
+1525465454 source:c:\1ercuatrimestretecnicatura\tp_laboratorio_2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1525531440 source:c:\programacion1cuatri\tp_02\tp_laboratorio_2\funciones.c
+	"funciones.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1525531080 c:\programacion1cuatri\tp_02\tp_laboratorio_2\funciones.h
+
+1525531080 source:c:\programacion1cuatri\tp_02\tp_laboratorio_2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
