@@ -5,7 +5,7 @@ typedef struct{
 
 char titulo[20];
 int genero[20];
-char duracion;
+int duracion;
 char descripcion[50];
 int puntaje;
 char linkimage[50];
@@ -90,7 +90,7 @@ void cargarMovie(EMovie *);
  *  @return retorna 1 o 0 de acuerdo a si pudo agregar la pelicula o no
  */
 
-int agregarPelicula(EMovie *);
+int agregarPelicula(EMovie);
 
 
 /**
@@ -105,13 +105,21 @@ int borrarPelicula(EMovie *movie);
  *  @param lista la lista de peliculas a ser agregadas en el archivo.
  *  @param nombre el nombre para el archivo.
  */
-void generarPagina(EMovie [], char []);
+
+void generarPagina(EMovie *, char []);
+
+
+int modificarPelicula(EMovie *);
+
+
 
 void  mostrarListaMovie(EMovie [], int );
 
 int BuscarMovie(EMovie *, int );
 
 int cargarDesdeArchivo(EMovie *x);
+
+int GuadarListaArchivo(EMovie *x);
 
 int* pedirmemoriaEntero();
 

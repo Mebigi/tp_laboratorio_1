@@ -7,94 +7,359 @@
 #define TAM_M 10
 
 
-
+//1 cargar
 
 void cargarMovie(EMovie *lista)
 {
     int index;
 
-    cargarDesdeArchivo(lista);
+    for(int i=0; i<TAM_M; i++)
+    {
 
-    mostrarListaMovie(lista, TAM_M);
+        (lista+i)->estado=0;
+        (lista+i)->idmovie=0;
+
+    }
+
+    cargarDesdeArchivo(lista);
 
     index = obtenerEspacioLibre(lista);
 
-    if (index!= -1)
-    {
+    printf("Lista\n");
 
-        getString("TITULO:",(lista+index)->titulo, 3,19);
+    mostrarListaMovie(lista, TAM_M);
+
+
+    if (index!=-1)
+    {
+        getString("\nTITULO:",(lista+index)->titulo, 3,19);
         (lista+index)->duracion=IngresarEntero("DURACION en minutos:", 15, 300);
         getString("Ingrese Descripcion:",(lista+index)->descripcion, 10, 49);
-        (lista+index)->duracion=IngresarEntero("Puntaje:", 1, 10);
+        (lista+index)->puntaje=IngresarEntero("Puntaje:", 1, 10);
         getString("URL imagen:",(lista+index)->linkimage, 3, 49);
         (lista+index)->idmovie = index+1;
         (lista+index)->estado = 1;
 
+        if (Confirmacion("confirma"))
+        {
+            GuadarListaArchivo(lista);
+
+        }
+
+    }else
+
+    {
+        printf("\nNo hay espacio en la lista\n");
 
     }
 
-    agregarPelicula(lista);
-
 }
 
-int agregarPelicula(EMovie *x)
+//2 borrar
+
+int borrarPelicula(EMovie *lista)
 {
-    int retorno=-1;
-	FILE *f;
 
-   /* f = fopen("listamovie.dat", "rb");
-
-    fread(x,sizeof(EMovie),TAM_M,f);
-
-    fclose(f);
-*/
-
-    f = fopen("listamovie.dat","wb");
-    if(f == NULL)
-		{
-			retorno=1;
-		}
-
-	fwrite(x,sizeof(EMovie),TAM_M,f);
-
-	fclose(f);
-
-	return retorno;
+    EMovie aux= {0};
+    int baja;
+    int index;
+    int retorno=0;
 
 
+    cargarDesdeArchivo(lista);
 
+    if(lista != NULL)
+    {
+
+    //arbiir archivo y gnenerar lista
+
+    mostrarListaMovie(lista, TAM_M);
+
+    baja = IngresarEntero("\nID Pelicula: ", 1, 1000);
+
+    index=BuscarMovie(lista,baja);
+
+    if(index!=-1 && lista[index].estado == 1)
+    {
+
+        {
+            printf("\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+            printf("\tPelicula: %s", lista[index].titulo);
+
+
+
+        }
+
+
+        if(Confirmacion("Confirma la Baja?"))
+        {
+            lista[index].estado=aux.estado;
+            GuadarListaArchivo(lista);
+
+
+
+        }
+
+
+    }
+
+
+
+
+    else
+    {
+        printf("Pelicula no encontrada");
+        retorno=-1;
+
+    }
+
+    } else
+    {
+         printf("\nNo hay peliculas cargadas\n\n");
+    }
+
+
+     return retorno;
 
 }
+ //3 modificar
+
+int modificarPelicula(EMovie *lista)
+{
+
+    EMovie aux= {0};
+    int modificar;
+    int index;
+    int retorno=0;
+
+
+    cargarDesdeArchivo(lista);
+
+    if(lista != NULL)
+    {
+
+    //arbiir archivo y gnenerar lista
+
+    mostrarListaMovie(lista, TAM_M);
+
+    modificar = IngresarEntero("\nID Pelicula: ", 1, 10);
+
+    index=BuscarMovie(lista,modificar);
+
+    if(index!=-1)
+    {
+
+        {
+
+        printf("\tPelicula: %s", (lista+index)->titulo);
+
+        printf("\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        getString("\nTITULO:",aux.titulo, 3,19);
+        aux.duracion=IngresarEntero("DURACION en minutos:", 15, 300);
+        getString("Ingrese Descripcion:",aux.descripcion, 10, 49);
+        aux.puntaje=IngresarEntero("Puntaje:", 1, 10);
+        getString("URL imagen:",aux.linkimage, 3, 49);
+        aux.estado = (lista+index)->estado;
+        aux.idmovie = (lista+index)->idmovie;
+        }
+
+
+        if(Confirmacion("Confirma los cambios?"))
+        {
+            lista[index]=aux;
+            GuadarListaArchivo(lista);
+
+
+
+        }
+
+
+    }
+
+
+
+
+    else
+    {
+        printf("Pelicula no encontrada");
+        retorno=-1;
+
+    }
+
+    } else
+    {
+         printf("\nNo hay peliculas cargadas\n\n");
+    }
+
+
+     return retorno;
+
+}
+ //generear html
+
+ void generarPagina(EMovie *lista, char nombrearchivo[])
+ {
+
+
+  FILE* archivoHTML;
+
+  cargarDesdeArchivo(lista);
+
+  char buffer[5000]= {};
+  strcat(buffer,"<!DOCTYPE html>"
+            "<!-- Template by Quackit.com -->"
+            "<html lang='en'>"
+            "<head>"
+                "<meta charset='utf-8'>"
+                "<meta http-equiv='X-UA-Compatible' content='IE=edge'>"
+                "<meta name='viewport' content='width=device-width, initial-scale=1'>"
+                "<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->"
+                "<title>Lista peliculas</title>"
+                "<!-- Bootstrap Core CSS -->"
+                "<link href='css/bootstrap.min.css' rel='stylesheet'>"
+                "<!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->"
+                "<link href='css/custom.css' rel='stylesheet'>"
+                "<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->"
+                "<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->"
+                "<!--[if lt IE 9]>"
+                    "<script src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js'></script>"
+                    "<script src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js'></script>"
+                "<![endif]-->"
+            "</head>"
+           " <body>"
+                "<div class='container'>"
+                    "<div class='row'>");
+
+                        for (int i=0; i<TAM_M; i++)
+                        {
+                            if ((lista+i)->idmovie!=0)
+                            {
+
+                                strcat(buffer,"<!-- Repetir esto para cada pelicula -->"
+                        "<article class='col-md-4 article-intro'>"
+                            "<a href='#'>"
+                                "<img class='img-responsive img-rounded' src='http://ia.media-imdb.com/images/M/MV5BMjA5NTYzMDMyM15BMl5BanBnXkFtZTgwNjU3NDU2MTE@._V1_UX182_CR0,0,182,268_AL_.jpg' alt=''>"
+                            "</a>"
+                            "<h3>"
+                                "<a href='#'>Back to the future</a>"
+                            "</h3>"
+                            "<ul>"
+                                "<li>Género:Aventura</li>"
+                                "<li>Puntaje:86</li>"
+                                "<li>Duración:116</li>"
+                            "</ul>"
+                            "<p>A young man is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his friend, Dr. Emmett Brown, and"
+                             "must make sure his high-school-age parents unite in order to save his own existence.</p>"
+                        "</article>"
+                        "<!-- Repetir esto para cada pelicula -->");
+
+                            }
+                        }
+
+
+
+
+
+                        strcat(buffer,"</div>"
+                "<!-- /.row -->"
+                "</div>"
+               " <!-- /.container -->"
+                "<!-- jQuery -->"
+                "<script src='js/jquery-1.11.3.min.js'></script>"
+                "<!-- Bootstrap Core JavaScript -->"
+                "<script src='js/bootstrap.min.js'></script>"
+               "<!-- IE10 viewport bug workaround -->"
+               " <script src='js/ie10-viewport-bug-workaround.js'></script>"
+                "<!-- Placeholder Images -->"
+                "<script src='js/holder.min.js'></script>"
+            "</body>"
+            "</html>");
+
+
+
+    archivoHTML = fopen(nombrearchivo,"w");
+
+
+    fprintf(archivoHTML,buffer);
+
+    fclose(archivoHTML);
+
+    return 0;
+
+
+
+
+ }
 
 int cargarDesdeArchivo(EMovie *x)
 {
-	int flag = 0;
+
 	FILE *f;
+	int retorno=0;
+	int bandera=0;
+
 
 	f=fopen("listamovie.dat", "rb");
 	if(f==NULL)
 	{
 		f= fopen("listamovie.dat", "wb");
+		bandera=1;
+
+
+
 		if(f==NULL)
 		{
-			return 1;
+			retorno=1;
 		}
-
-		flag=1;
 
 	}
 
-	if(flag ==0)
+
+	if(bandera==0)
 	{
-	fread(x,sizeof(EMovie),TAM_M,f);
+     while(!feof(f))
+     {
+
+      fread(x,sizeof(EMovie),TAM_M,f);
+
+
     }
+	}
 
 	fclose(f);
 
-	return 0;
+	return retorno;
 
 }
 
+
+int GuadarListaArchivo(EMovie *x)
+{
+
+	FILE *f;
+	int retorno=0;
+
+	f=fopen("listamovie.dat", "wb");
+	if(f==NULL)
+	{
+
+			retorno=1;
+    }
+
+
+	if(retorno ==0)
+	{
+
+      fwrite(x,sizeof(EMovie),TAM_M,f);
+
+
+     }
+
+	fclose(f);
+
+	return retorno;
+
+}
 
 int obtenerEspacioLibre(EMovie *lista)
 {
@@ -102,7 +367,7 @@ int obtenerEspacioLibre(EMovie *lista)
 
     for(int i=0; i<TAM_M; i++)
     {
-        if((lista+i)->idmovie==0 && lista != NULL)
+        if((lista+i)->estado==0)
         {
             index=i;
             break;
@@ -285,75 +550,20 @@ int Confirmacion(char mensaje[])
 }
 
 
-int borrarPelicula(EMovie *movie)
-{
-
-    EMovie aux= {0};
-    int baja;
-    int index;
-    int retorno=0;
-
-    if(movie == NULL)
-    {
-
-    //arbiir archivo y gnenerar lista
-
-    mostrarListaMovie(movie, TAM_M);
-
-    baja = IngresarEntero("\nID Pelicula: ", 1, 1000);
-
-    index=BuscarMovie(movie,baja);
-
-    if(index!=-1 && movie[index].estado == 1)
-    {
-
-        {
-            printf("\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-            printf("\tPelicula: %s", movie[index].titulo);
-        }
-
-
-        if(Confirmacion("Confirma la Baja?"))
-        {
-            movie[index].estado=aux.estado;
-
-        }
-
-
-    }
-
-
-
-
-    else
-    {
-        printf("Pelicula no encontrada");
-        retorno=-1;
-
-    }
-
-    } else
-    {
-         printf("\nNo hay peliculas cargadas\n\n");
-    }
-
-
-     return retorno;
-
-}
-
 void  mostrarListaMovie(EMovie lista[], int tam)
 {
 
-    if(lista == NULL)
+    if(lista != NULL)
     {
-          printf("\nID\tTitulo\tDescripcion");
+    printf("\nID\tTitulo\tDescripcion");
     printf("\n--------------------------------------------------------------------");
     for(int i=0; i<tam; i++)
     {
 
 
         if(lista[i].estado==1)
+
+
         {
 
             printf("\n%d\t\t%s\t\t%s\t\t",lista[i].idmovie,lista[i].titulo,lista[i].descripcion);
