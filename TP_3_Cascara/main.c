@@ -8,6 +8,21 @@ int main()
 {
      EMovie listamovie[TAM_M];
 
+     int* d;
+
+     d = pedirmemoriaEntero();
+     *d = 5;
+     printf("d= %d\n", *d);
+
+
+     EMovie* estructura;
+
+     estructura = pedirmemoriaEmovie();
+
+     printf("d= %p\n", *estructura);
+
+
+
 
     char seguir='s';
     int opcion;

@@ -388,3 +388,14 @@ int BuscarMovie(EMovie *lista, int id)
     return index;
 }
 
+int* pedirmemoriaEntero()
+{
+    int* entero;
+    entero = malloc(sizeof(int));
+}
+
+EMovie* pedirmemoriaEmovie()
+{
+    EMovie* dato;
+    dato = malloc(sizeof(EMovie));
+}

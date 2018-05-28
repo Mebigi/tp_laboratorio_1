@@ -113,4 +113,8 @@ int BuscarMovie(EMovie *, int );
 
 int cargarDesdeArchivo(EMovie *x);
 
+int* pedirmemoriaEntero();
+
+EMovie* pedirmemoriaEmovie();
+
 #endif // FUNCIONES_H_INCLUDED
