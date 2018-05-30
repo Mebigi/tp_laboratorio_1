@@ -4,13 +4,13 @@
 typedef struct{
 
 char titulo[20];
-int genero[20];
+char genero[20];
 int duracion;
-char descripcion[50];
+char descripcion[500];
 int puntaje;
 char linkimage[50];
 int idmovie;
-int estado;
+
 
 }EMovie;
 
@@ -113,7 +113,7 @@ int modificarPelicula(EMovie *);
 
 
 
-void  mostrarListaMovie(EMovie [], int );
+int  mostrarListaMovie(EMovie [], int );
 
 int BuscarMovie(EMovie *, int );
 
@@ -121,8 +121,8 @@ int cargarDesdeArchivo(EMovie *x);
 
 int GuadarListaArchivo(EMovie *x);
 
-int* pedirmemoriaEntero();
+char* traerGenero(int, char [] );
 
-EMovie* pedirmemoriaEmovie();
+
 
 #endif // FUNCIONES_H_INCLUDED

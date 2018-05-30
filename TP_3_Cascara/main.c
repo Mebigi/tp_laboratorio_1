@@ -1,43 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funciones.h"
+#include <wchar.h>
+#include <locale.h>
 #define TAM_M 10
+
+
+
 
 
 int main()
 {
      EMovie listamovie[TAM_M];
 
-     int* d;
-
-     d = pedirmemoriaEntero();
-     *d = 5;
-     printf("d= %d\n", *d);
-
-
-     /*EMovie* estructura;
-
-     estructura = pedirmemoriaEmovie();
-
-     printf("d= %p\n", *estructura);
-     */
+     char seguir='s';
+     int opcion;
 
 
 
 
-    char seguir='s';
-    int opcion;
+
+
+    setlocale(LC_ALL, "");
+
+
+
 
 
     while(seguir=='s')
     {
-        printf("1- Agregar pelicula\n");
-        printf("2- Borrar pelicula\n");
-        printf("3- modificar pelicula\n");
-        printf("4- Generar pagina web\n");
+        printf("1- Agregar película\n");
+        printf("2- Borrar película\n");
+        printf("3- modificar película\n");
+        printf("4- Generar página web\n");
         printf("5- Salir\n");
 
-        opcion = IngresarEntero("\nIngrese una OPCION", 1, 5);
+        opcion = IngresarEntero("\nIngrese una OPCIóN", 1, 5);
 
         switch(opcion)
         {

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <conio.h>
+
 #define TAM_M 10
 
 
@@ -12,14 +13,10 @@
 void cargarMovie(EMovie *lista)
 {
     int index;
+    int ingresar_genero;
 
-    for(int i=0; i<TAM_M; i++)
-    {
 
-        (lista+i)->estado=0;
-        (lista+i)->idmovie=0;
 
-    }
 
     cargarDesdeArchivo(lista);
 
@@ -34,11 +31,19 @@ void cargarMovie(EMovie *lista)
     {
         getString("\nTITULO:",(lista+index)->titulo, 3,19);
         (lista+index)->duracion=IngresarEntero("DURACION en minutos:", 15, 300);
-        getString("Ingrese Descripcion:",(lista+index)->descripcion, 10, 49);
+        getString("Ingrese Descripcion:",(lista+index)->descripcion, 10, 499);
         (lista+index)->puntaje=IngresarEntero("Puntaje:", 1, 10);
         getString("URL imagen:",(lista+index)->linkimage, 3, 49);
         (lista+index)->idmovie = index+1;
-        (lista+index)->estado = 1;
+
+
+        ingresar_genero=IngresarEntero("Genero: Terror-1 , Comedia-2, Drama-3, Accion-4, Otros-5", 1, 5);
+
+        traerGenero(ingresar_genero, (lista+index)->genero);
+
+        printf("%s", (lista+index)->genero);
+
+
 
         if (Confirmacion("confirma"))
         {
@@ -64,6 +69,7 @@ int borrarPelicula(EMovie *lista)
     int baja;
     int index;
     int retorno=0;
+    int cargadas;
 
 
     cargarDesdeArchivo(lista);
@@ -73,13 +79,16 @@ int borrarPelicula(EMovie *lista)
 
     //arbiir archivo y gnenerar lista
 
-    mostrarListaMovie(lista, TAM_M);
+    cargadas = mostrarListaMovie(lista, TAM_M);
 
-    baja = IngresarEntero("\nID Pelicula: ", 1, 1000);
+    if (cargadas!=0)
+    {
 
-    index=BuscarMovie(lista,baja);
+         baja = IngresarEntero("\nID Pelicula: ", 1, 1000);
+        index=BuscarMovie(lista,baja);
 
-    if(index!=-1 && lista[index].estado == 1)
+
+         if(index!=-1 && lista[index].idmovie != 0 )
     {
 
         {
@@ -93,7 +102,7 @@ int borrarPelicula(EMovie *lista)
 
         if(Confirmacion("Confirma la Baja?"))
         {
-            lista[index].estado=aux.estado;
+            lista[index].idmovie=aux.idmovie;
             GuadarListaArchivo(lista);
 
 
@@ -102,24 +111,19 @@ int borrarPelicula(EMovie *lista)
 
 
     }
-
-
-
-
-    else
+     else
     {
         printf("Pelicula no encontrada");
         retorno=-1;
 
     }
 
-    } else
-    {
-         printf("\nNo hay peliculas cargadas\n\n");
+
     }
 
 
-     return retorno;
+}
+ return retorno;
 
 }
  //3 modificar
@@ -131,6 +135,8 @@ int modificarPelicula(EMovie *lista)
     int modificar;
     int index;
     int retorno=0;
+    int cargadas;
+
 
 
     cargarDesdeArchivo(lista);
@@ -140,9 +146,11 @@ int modificarPelicula(EMovie *lista)
 
     //arbiir archivo y gnenerar lista
 
-    mostrarListaMovie(lista, TAM_M);
+   cargadas= mostrarListaMovie(lista, TAM_M);
 
-    modificar = IngresarEntero("\nID Pelicula: ", 1, 10);
+   if(cargadas!=0)
+   {
+        modificar = IngresarEntero("\nID Pelicula: ", 1, 10);
 
     index=BuscarMovie(lista,modificar);
 
@@ -159,7 +167,6 @@ int modificarPelicula(EMovie *lista)
         getString("Ingrese Descripcion:",aux.descripcion, 10, 49);
         aux.puntaje=IngresarEntero("Puntaje:", 1, 10);
         getString("URL imagen:",aux.linkimage, 3, 49);
-        aux.estado = (lista+index)->estado;
         aux.idmovie = (lista+index)->idmovie;
         }
 
@@ -186,10 +193,10 @@ int modificarPelicula(EMovie *lista)
 
     }
 
-    } else
-    {
-         printf("\nNo hay peliculas cargadas\n\n");
     }
+
+   }
+
 
 
      return retorno;
@@ -200,18 +207,25 @@ int modificarPelicula(EMovie *lista)
  void generarPagina(EMovie *lista, char nombrearchivo[])
  {
 
-
   FILE* archivoHTML;
+
+
+
+  char cpuntaje[2];
+
+  char cduracion[4];
+
 
   cargarDesdeArchivo(lista);
 
   char buffer[5000]= {};
   strcat(buffer,"<!DOCTYPE html>"
             "<!-- Template by Quackit.com -->"
-            "<html lang='en'>"
+            "<html lang='es'>"
             "<head>"
-                "<meta charset='utf-8'>"
-                "<meta http-equiv='X-UA-Compatible' content='IE=edge'>"
+                "<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>"
+
+                //"<meta http-equiv='X-UA-Compatible' content='IE=edge'>"
                 "<meta name='viewport' content='width=device-width, initial-scale=1'>"
                 "<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->"
                 "<title>Lista peliculas</title>"
@@ -227,7 +241,7 @@ int modificarPelicula(EMovie *lista)
                 "<![endif]-->"
             "</head>"
            " <body>"
-                "<div class='container'>"
+                "<div class='container'><div class='row' style='padding-bottom:40px;'><div class='col-md-3' style='background-color:#000000;'></div><div col-md-4' style='background-color:#000000;'><img class='img-responsive center' src='img/peliculas.jpg'></div><div class='col-md-5' style='background-color:#000000;'></div></div>"
                     "<div class='row'>");
 
                         for (int i=0; i<TAM_M; i++)
@@ -235,22 +249,43 @@ int modificarPelicula(EMovie *lista)
                             if ((lista+i)->idmovie!=0)
                             {
 
-                                strcat(buffer,"<!-- Repetir esto para cada pelicula -->"
+                        itoa((lista+i)->duracion, cduracion, 10);
+                       itoa((lista+i)->puntaje, cpuntaje, 10);
+
+                        strcat(buffer,"<!-- Repetir esto para cada pelicula -->"
                         "<article class='col-md-4 article-intro'>"
+                        "<div class='col-md-6 article-intro'>"
                             "<a href='#'>"
-                                "<img class='img-responsive img-rounded' src='http://ia.media-imdb.com/images/M/MV5BMjA5NTYzMDMyM15BMl5BanBnXkFtZTgwNjU3NDU2MTE@._V1_UX182_CR0,0,182,268_AL_.jpg' alt=''>"
-                            "</a>"
-                            "<h3>"
-                                "<a href='#'>Back to the future</a>"
-                            "</h3>"
+                                "<img class='img-responsive img-rounded' src='");
+
+                        strcat(buffer, (lista+i)->linkimage);
+
+                        strcat(buffer,"'/></a>"
+
+
+                                "<a href='#'></div><div class='col-md-6 article-intro'><h3>");
+
+
+                            strcat(buffer,(lista+i)->titulo);
+
+
+                            strcat(buffer,"</a>"
+                            "</h3><br/>"
                             "<ul>"
-                                "<li>Género:Aventura</li>"
-                                "<li>Puntaje:86</li>"
-                                "<li>Duración:116</li>"
-                            "</ul>"
-                            "<p>A young man is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his friend, Dr. Emmett Brown, and"
-                             "must make sure his high-school-age parents unite in order to save his own existence.</p>"
-                        "</article>"
+                                "<li>Genero:");
+
+                            strcat(buffer, (lista+i)->genero);
+
+                            strcat(buffer,"</li><li>Puntaje:");
+                            strcat(buffer, cpuntaje);
+
+                              strcat(buffer, "</li><li>Duracion:");
+                              strcat(buffer,cduracion);
+                              strcat(buffer, "</li></ul><p></div><article class='col-md-12 article-intro'>");
+                             strcat(buffer, (lista+i)->descripcion);
+
+                            strcat(buffer,"</p>"
+                        "</article></article>"
                         "<!-- Repetir esto para cada pelicula -->");
 
                             }
@@ -284,10 +319,6 @@ int modificarPelicula(EMovie *lista)
 
     fclose(archivoHTML);
 
-    return 0;
-
-
-
 
  }
 
@@ -297,6 +328,13 @@ int cargarDesdeArchivo(EMovie *x)
 	FILE *f;
 	int retorno=0;
 	int bandera=0;
+
+
+	 for(int i=0; i<TAM_M; i++)
+    {
+        (x+i)->idmovie=0;
+    }
+
 
 
 	f=fopen("listamovie.dat", "rb");
@@ -367,7 +405,7 @@ int obtenerEspacioLibre(EMovie *lista)
 
     for(int i=0; i<TAM_M; i++)
     {
-        if((lista+i)->estado==0)
+        if((lista+i)->idmovie==0)
         {
             index=i;
             break;
@@ -550,34 +588,46 @@ int Confirmacion(char mensaje[])
 }
 
 
-void  mostrarListaMovie(EMovie lista[], int tam)
+int  mostrarListaMovie(EMovie lista[], int tam)
 {
+    int flag=0;
+
 
     if(lista != NULL)
     {
-    printf("\nID\tTitulo\tDescripcion");
-    printf("\n--------------------------------------------------------------------");
+
     for(int i=0; i<tam; i++)
     {
+        if (flag==0 && lista[i].idmovie!=0)
+        {
+        printf("\nID\tTitulo\t\tgenero\t\tDescripcion");
+        printf("\n---------------------------------------------------------------------------------------------------");
+        flag=1;
 
+        }
 
-        if(lista[i].estado==1)
+        if(lista[i].idmovie!=0)
 
 
         {
 
-            printf("\n%d\t\t%s\t\t%s\t\t",lista[i].idmovie,lista[i].titulo,lista[i].descripcion);
+            printf("\n%d\t%.30s\t%0.10s\t\t%.55s...\t\n",lista[i].idmovie,lista[i].titulo,lista[i].genero,lista[i].descripcion);
 
 
         }
 
     }
+        if (flag==0)
+        {
+        printf("\nNo hay Peliculas cargadas");
 
-    printf("\n--------------------------------------------------------------------");
 
+        }
+
+     printf("\n---------------------------------------------------------------------------------------------------");
     }
 
-
+    return flag;
 }
 
 
@@ -598,14 +648,32 @@ int BuscarMovie(EMovie *lista, int id)
     return index;
 }
 
-int* pedirmemoriaEntero()
+char* traerGenero(int numero, char genero[])
 {
-    int* entero;
-    entero = malloc(sizeof(int));
+        switch (numero)
+                {
+                case 1:
+                    strcpy(genero, "Terror");
+                    break;
+                case 2:
+                    strcpy(genero, "Comedia");
+                    break;
+                case 3:
+                    strcpy(genero, "Drama");
+                    break;
+                case 4:
+                    strcpy(genero, "Accion");
+                    break;
+                case 5:
+                    strcpy(genero, "Otros");
+                    break;
+                }
+
+//Terror-1 , Comedia-2, Drama-3, Accion-4, Otros-5
+
+
+    return genero;
 }
 
-EMovie* pedirmemoriaEmovie()
-{
-    EMovie* dato;
-    dato = malloc(sizeof(EMovie));
-}
+
+

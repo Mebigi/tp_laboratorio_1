@@ -40,3 +40,17 @@
 	<stdlib.h>
 	"funciones.h"
 
+1527522359 source:c:\1ercuatrimestretecnicatura\tp_laboratorio_1\tp2\funciones.c
+	"funciones.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1527522359 c:\1ercuatrimestretecnicatura\tp_laboratorio_1\tp2\funciones.h
+
+1527522359 source:c:\1ercuatrimestretecnicatura\tp_laboratorio_1\tp2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
