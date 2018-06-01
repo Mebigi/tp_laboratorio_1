@@ -14,27 +14,29 @@ void cargarMovie(EMovie *lista)
 {
     int index;
     int ingresar_genero;
+    int cargadas;
+
+    cargadas=cargarDesdeArchivo(lista);
+    //cargadas=0 el archivo tiene peliculas cargadas //cargadas=1 el archivo es nuevo //cargadas=2 el archivo no se pudo crear
+
+    if (cargadas <2)
+    {
+        index = obtenerEspacioLibre(lista);
 
 
-
-
-    cargarDesdeArchivo(lista);
-
-    index = obtenerEspacioLibre(lista);
-
-    printf("Lista\n");
-
-    mostrarListaMovie(lista, TAM_M);
+    //mostrarListaMovie(lista, TAM_M);
 
 
     if (index!=-1)
     {
+        printf("\nINGRESO PELICULA -Complete las opciones\n");
         getString("\nTITULO:",(lista+index)->titulo, 3,19);
         (lista+index)->duracion=IngresarEntero("DURACION en minutos:", 15, 300);
         getString("Ingrese Descripcion:",(lista+index)->descripcion, 10, 499);
         (lista+index)->puntaje=IngresarEntero("Puntaje:", 1, 10);
         getString("URL imagen:",(lista+index)->linkimage, 3, 49);
         (lista+index)->idmovie = index+1;
+
 
 
         ingresar_genero=IngresarEntero("Genero: Terror-1 , Comedia-2, Drama-3, Accion-4, Otros-5", 1, 5);
@@ -58,6 +60,13 @@ void cargarMovie(EMovie *lista)
 
     }
 
+
+    } else
+    {
+        printf("\nNo hay peliculas para borrar\n");
+    }
+
+
 }
 
 //2 borrar
@@ -72,19 +81,18 @@ int borrarPelicula(EMovie *lista)
     int cargadas;
 
 
-    cargarDesdeArchivo(lista);
+    cargadas=cargarDesdeArchivo(lista);
 
-    if(lista != NULL)
-    {
 
     //arbiir archivo y gnenerar lista
 
-    cargadas = mostrarListaMovie(lista, TAM_M);
 
-    if (cargadas!=0)
+    if (cargadas==0)
     {
+        if(mostrarListaMovie(lista, TAM_M))
+        {
 
-         baja = IngresarEntero("\nID Pelicula: ", 1, 1000);
+             baja = IngresarEntero("\nID Pelicula: ", 1, 1000);
         index=BuscarMovie(lista,baja);
 
 
@@ -104,6 +112,7 @@ int borrarPelicula(EMovie *lista)
         {
             lista[index].idmovie=aux.idmovie;
             GuadarListaArchivo(lista);
+             printf("Pelicula eliminada con exito");
 
 
 
@@ -117,12 +126,17 @@ int borrarPelicula(EMovie *lista)
         retorno=-1;
 
     }
+        }
 
 
     }
 
+    else
+    {
+        printf("\nProblemas para crear el archivo\n");
+    }
 
-}
+
  return retorno;
 
 }
@@ -136,21 +150,26 @@ int modificarPelicula(EMovie *lista)
     int index;
     int retorno=0;
     int cargadas;
+    int ingresar_genero;
+    int opcion;
 
 
 
-    cargarDesdeArchivo(lista);
+    cargadas=cargarDesdeArchivo(lista);
 
-    if(lista != NULL)
-    {
+
+
 
     //arbiir archivo y gnenerar lista
 
-   cargadas= mostrarListaMovie(lista, TAM_M);
 
-   if(cargadas!=0)
+
+   if(cargadas==0)
    {
-        modificar = IngresarEntero("\nID Pelicula: ", 1, 10);
+      if(mostrarListaMovie(lista, TAM_M))
+        {
+
+    modificar = IngresarEntero("\nID Pelicula: ", 1, 10);
 
     index=BuscarMovie(lista,modificar);
 
@@ -159,15 +178,57 @@ int modificarPelicula(EMovie *lista)
 
         {
 
-        printf("\tPelicula: %s", (lista+index)->titulo);
+        printf("\tLa Pel%ccula que desea modificar es: %s", 163, (lista+index)->titulo);
 
         printf("\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-        getString("\nTITULO:",aux.titulo, 3,19);
-        aux.duracion=IngresarEntero("DURACION en minutos:", 15, 300);
-        getString("Ingrese Descripcion:",aux.descripcion, 10, 49);
-        aux.puntaje=IngresarEntero("Puntaje:", 1, 10);
-        getString("URL imagen:",aux.linkimage, 3, 49);
-        aux.idmovie = (lista+index)->idmovie;
+
+
+        printf("1- Titulo\n");
+        printf("2- Duracion\n");
+        printf("3- Descripcion\n");
+        printf("4- Puntaje\n");
+        printf("5- Link imagen\n");
+        printf("6- Genero\n");
+
+        opcion=IngresarEntero("Campo a modificar - ingresar opcion:", 1, 6);
+
+         aux=lista[index];
+
+        switch (opcion)
+                {
+                case 1:
+                    getString("\nTITULO:",aux.titulo, 3,19);
+                    break;
+                case 2:
+                   aux.duracion=IngresarEntero("DURACION en minutos:", 15, 300);
+                    break;
+                case 3:
+                     getString("Ingrese Descripcion:",aux.descripcion, 10, 499);
+                    break;
+                case 4:
+                   aux.puntaje=IngresarEntero("Puntaje:", 1, 10);
+                    break;
+                case 5:
+                     getString("URL imagen:",aux.linkimage, 3, 49);
+                    break;
+                case 6:
+                    ingresar_genero=IngresarEntero("Genero: Terror-1 , Comedia-2, Drama-3, Accion-4, Otros-5", 1, 5);
+
+                    traerGenero(ingresar_genero, aux.genero);
+
+                    printf("%s", aux.genero);
+                    break;
+                }
+
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -194,8 +255,15 @@ int modificarPelicula(EMovie *lista)
     }
 
     }
-
    }
+     else
+    {
+        printf("\nNo hay Peliculas para modificar");
+        retorno=-1;
+
+    }
+
+
 
 
 
@@ -214,9 +282,15 @@ int modificarPelicula(EMovie *lista)
   char cpuntaje[2];
 
   char cduracion[4];
+  int cargadas;
 
 
-  cargarDesdeArchivo(lista);
+  cargadas=cargarDesdeArchivo(lista);
+
+  if(cargadas==0)
+  {
+
+
 
   char buffer[5000]= {};
   strcat(buffer,"<!DOCTYPE html>"
@@ -319,6 +393,13 @@ int modificarPelicula(EMovie *lista)
 
     fclose(archivoHTML);
 
+    printf("Se generó el archivo HTML con exito");
+
+    }else
+    {
+         printf("No generó el archivo HTML porque no hay peliculas cargadas");
+    }
+
 
  }
 
@@ -327,7 +408,6 @@ int cargarDesdeArchivo(EMovie *x)
 
 	FILE *f;
 	int retorno=0;
-	int bandera=0;
 
 
 	 for(int i=0; i<TAM_M; i++)
@@ -341,19 +421,20 @@ int cargarDesdeArchivo(EMovie *x)
 	if(f==NULL)
 	{
 		f= fopen("listamovie.dat", "wb");
-		bandera=1;
+
+		retorno=1;
 
 
 
 		if(f==NULL)
 		{
-			retorno=1;
+			retorno=2;
 		}
 
 	}
 
 
-	if(bandera==0)
+	if(retorno==0)
 	{
      while(!feof(f))
      {
@@ -459,7 +540,7 @@ void getString(char mensaje[],char input[], int min, int max)
     len = strlen(input);
     if(len < min || len > max)
     {
-        printf("Error,");
+        printf("Error, de ingresar texto entre %d y %d caracteres", min, max);
     }
     else
     {
