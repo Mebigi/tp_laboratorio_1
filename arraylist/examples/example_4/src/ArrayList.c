@@ -238,8 +238,8 @@ int al_remove(ArrayList* this,int index)
 
    if(index >= 0 && index<(this->size))
    {
-     *(this->pElements+index)= 0;
-
+     //*(this->pElements+index)= 0;
+     free(this->pElements+index);
       returnAux=0;
    }
 
@@ -258,6 +258,18 @@ int al_remove(ArrayList* this,int index)
 int al_clear(ArrayList* this)
 {
     int returnAux = -1;
+
+      if (this !=NULL )
+   {
+
+
+     //*(this->pElements+index)= 0;
+     free(this->pElements);
+     this->size=0;
+      returnAux=0;
+
+   }
+
 
     return returnAux;
 }

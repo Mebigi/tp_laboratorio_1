@@ -36,7 +36,8 @@ int main(void)
        startTesting(6); //al_contains
         startTesting(7);//al_set
        startTesting(8);
-        /* startTesting(9);
+        startTesting(9);
+        /*
         startTesting(10);
         startTesting(11);
         startTesting(12);
