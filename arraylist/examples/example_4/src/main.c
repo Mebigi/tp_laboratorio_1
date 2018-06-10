@@ -30,13 +30,13 @@ int main(void)
 {
         startTesting(1); //AL_new
         startTesting(2); //Al_add
-        /*startTesting(3);*/ //delete
+        startTesting(3); //delete
         startTesting(4); //al_len
-        startTesting(5);
-        startTesting(6);
-        /*startTesting(7);
-        startTesting(8);
-        startTesting(9);
+       startTesting(5); //al_get
+       startTesting(6); //al_contains
+        startTesting(7);//al_set
+       startTesting(8);
+        /* startTesting(9);
         startTesting(10);
         startTesting(11);
         startTesting(12);
@@ -46,6 +46,8 @@ int main(void)
         startTesting(16);
         startTesting(17);
 */
+
+
     return 0;
 }
 
