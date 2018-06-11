@@ -365,6 +365,26 @@ int al_push(ArrayList* this, int index, void* pElement)
 int al_indexOf(ArrayList* this, void* pElement)
 {
     int returnAux = -1;
+    int tam;
+
+     if (this !=NULL && pElement!=NULL )
+    {
+
+      tam = this->size;
+
+
+     for(int i=0; i<tam; i++) //muevo todos los indices a 1 mas de atras hacia adelante
+     {
+         if(*(this->pElements+i)== pElement)
+         {
+             returnAux=i;
+             break;
+         }
+
+      }
+       }
+
+
 
     return returnAux;
 }
