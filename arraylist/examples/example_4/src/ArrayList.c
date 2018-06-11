@@ -428,6 +428,15 @@ void* al_pop(ArrayList* this,int index)
 {
     void* returnAux = NULL;
 
+    if (this !=NULL && index >=0 && index<(this->size))
+    {
+        returnAux = *(this->pElements+index);
+
+        al_remove(this,index);
+
+
+    }
+
     return returnAux;
 }
 
