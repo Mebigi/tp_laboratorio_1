@@ -469,6 +469,29 @@ ArrayList* al_subList(ArrayList* this,int from,int to)
 int al_containsAll(ArrayList* this,ArrayList* this2)
 {
     int returnAux = -1;
+    int tam;
+
+    if(this!= NULL && this2!= NULL)
+    {
+
+    tam = this->size;
+
+
+     for(int i=0; i<tam; i++) //
+     {
+         if(*(this->pElements+i)!= *(this2->pElements+i))
+         {
+             returnAux=0;
+             break;
+         }
+         else
+        {
+            returnAux=1;
+        }
+
+      }
+    }
+
 
     return returnAux;
 }
