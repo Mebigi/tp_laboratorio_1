@@ -529,9 +529,10 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 
     ArrayList* aux;
 
-    aux= al_newArrayList();
+    aux = al_clone(this);
 
     int tam=0;
+    int comparo=0;
 
     //Ordena los elementos del array recibiendo como parámetro la función que sera la encargada de determinar que elemento
     //es mas grande que otro y si se debe ordenar de manera ascendente o descendente. Verificando que
@@ -539,53 +540,93 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 
     if(this!= NULL && pFunc!= NULL)
     {
-    returnAux=1;
 
-    if (order == 0) //ascendente
-    {
 
     tam = this->size;
 
+
+    if (order == 1) //ascendente order int  [1] indicate UP - [0] indicate DOWN
+    {
+
+
      for(int i=0; i<tam-1; i++) //
      {
-         if(pFunc(*(this->pElements+i), *(this->pElements+(i+1))))
+
+         comparo = pFunc(*(this->pElements+i), *(this->pElements+(i+1)));
+
+         printf("%d %d taman %d\n", i, comparo, tam);
+
+         printf("%d %d\n", i,*(this->pElements+i));
+
+          printf("%d+1 %d\n", i,*(this->pElements+(i+1)));
+
+
+
+         if(comparo==1) // A>B
          {
 
-             al_push(aux, i,this->pElements+(i));
+         al_push(this, i, al_pop(this, i+1));
 
-             *(this->pElements+i)=*(this->pElements+(i+1));
+         // *(this->pElements+i)= *(this->pElements+(i+1)); //el valor que punta pi lo igualo al mismo que apunto i+1
 
-             *(this->pElements+(i+1))=*(aux->pElements+(i));
-
-
-
+        // *(this->pElements+(i+1))=*(aux->pElements+i);
 
          }
 
+          printf("post %d %d\n", i,*(this->pElements+i));
+
+          printf("post %d+1 %d\n", i,*(this->pElements+(i+1)));
+
 
       }
+
+       free(aux);
+
+       returnAux=0;
     }
-      else // order == 1 desendente
+    else if (order == 0) // order == 1 desendente
       {
           for(int i=0; i<tam-1; i++) //
      {
-         if(!pFunc(*(this->pElements+i), *(this->pElements+(i+1))))
+          comparo = pFunc(*(this->pElements+i), *(this->pElements+(i+1)));
+
+           printf("order == 1 %d %d\n", i, comparo);
+
+         printf("order == 1 %d %d\n", i,*(this->pElements+i));
+
+          printf("order == 1 %d+1 %d\n", i,*(this->pElements+(i+1)));
+
+          if(comparo==-1)
          {
 
-             al_push(aux, i,this->pElements+(i));
+        al_push(this, i, al_pop(this, i+1));
 
-             *(this->pElements+i)=*(this->pElements+(i+1));
+          //*(this->pElements+i)=*(this->pElements+(i+1));
 
-             *(this->pElements+(i+1))=*(aux->pElements+(i));
-
+            // *(this->pElements+(i+1))=*(aux->pElements+(i));
 
 
 
          }
 
+          printf("order == 1 post %d %d\n", i,*(this->pElements+i));
+
+          printf("order == 1 post %d+1 %d\n", i,*(this->pElements+(i+1)));
+
+
 
       }
+
+       free(aux);
+
+       returnAux=0;
       }
+      else //orden invalido
+      {
+          returnAux=-1;
+      }
+
+
 
     }
 
