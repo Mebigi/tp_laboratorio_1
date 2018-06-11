@@ -232,18 +232,28 @@ int al_set(ArrayList* this, int index,void* pElement)
 int al_remove(ArrayList* this,int index)
 {
     int returnAux = -1;
+    int tam;
+   //
 
-    if (this !=NULL )
+    if (this !=NULL && index >= 0 && index<(this->size) )
    {
 
-   if(index >= 0 && index<(this->size))
-   {
-     //*(this->pElements+index)= 0;
-     free(this->pElements+index);
-      returnAux=0;
-   }
+    tam = this->size;
+
+
+   for(int i=index; i<tam-1; i++)
+    {
+        *(this->pElements+i)=*(this->pElements+(i+1));
+
+    }
+    returnAux=0;
+    this->size--;
+
+
 
    }
+
+
 
     return returnAux;
 }
@@ -308,12 +318,10 @@ int al_push(ArrayList* this, int index, void* pElement)
     {
 
     int tam = this->size;
-    ArrayList* aux;
-    aux = this;
 
-    if(aux->size == aux->reservedSize)
+    if(this->size == this->reservedSize)
        {
-           if(resizeUp(aux))// devuelve 0 si da ok
+           if(resizeUp(this))// devuelve 0 si da ok
            {
              flag=1;// marca que no agregue el elemento porque no hay espacio
            }
@@ -324,17 +332,17 @@ int al_push(ArrayList* this, int index, void* pElement)
        {
                 for(int i=tam-1; i>=index; i--) //muevo todos los indices a 1 mas de atras hacia adelante
             {
-                   *(aux->pElements+(i+1))=*(aux->pElements+i);
+                   *(this->pElements+(i+1))=*(this->pElements+i);
 
             }
 
-            *(aux->pElements+index)= pElement;
-            aux->size++;
+            *(this->pElements+index)= pElement;
+            this->size++;
 
 
             //printf("tamano %d\n", this->size);
 
-            this= aux;
+
 
             returnAux=0;
 
