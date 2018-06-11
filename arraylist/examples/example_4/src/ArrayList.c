@@ -302,6 +302,48 @@ int al_push(ArrayList* this, int index, void* pElement)
 {
     int returnAux = -1;
 
+    int flag=0;
+
+    if(this!=NULL && pElement!=NULL)
+    {
+
+    int tam = this->size;
+    ArrayList* aux;
+    aux = this;
+
+    if(aux->size == aux->reservedSize)
+       {
+           if(resizeUp(aux))// devuelve 0 si da ok
+           {
+             flag=1;// marca que no agregue el elemento porque no hay espacio
+           }
+
+       }
+
+    if(flag==0)
+       {
+                for(int i=tam-1; i>=index; i--) //muevo todos los indices a 1 mas de atras hacia adelante
+            {
+                   *(aux->pElements+(i+1))=*(aux->pElements+i);
+
+            }
+
+            *(aux->pElements+index)= pElement;
+            aux->size++;
+
+
+            //printf("tamano %d\n", this->size);
+
+            this= aux;
+
+            returnAux=0;
+
+       }
+
+    }
+
+
+
     return returnAux;
 }
 
