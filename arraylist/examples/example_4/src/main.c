@@ -38,7 +38,7 @@ int main(void)
        startTesting(8);
         startTesting(9);
 
-        //startTesting(10);
+        startTesting(10);
 
         startTesting(11);
 
@@ -51,7 +51,7 @@ int main(void)
 
         startTesting(15);
         startTesting(16); // AL_contains
-      //  startTesting(17);
+     startTesting(17);//Al_sort
 
 
     return 0;

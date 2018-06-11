@@ -295,6 +295,26 @@ ArrayList* al_clone(ArrayList* this)
 {
     ArrayList* returnAux = NULL;
 
+    returnAux = al_newArrayList();
+
+
+   if(this !=NULL && returnAux != NULL)
+   {
+
+    for(int i=0; i<this->size; i++)
+    {
+        al_add(returnAux, this->pElements+i);
+
+    }
+
+   }
+   else
+   {
+
+       returnAux = NULL;
+
+   }
+
     return returnAux;
 }
 
@@ -506,6 +526,75 @@ int al_containsAll(ArrayList* this,ArrayList* this2)
 int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 {
     int returnAux = -1;
+
+    ArrayList* aux;
+
+    aux= al_newArrayList();
+
+    int tam=0;
+
+    //Ordena los elementos del array recibiendo como parámetro la función que sera la encargada de determinar que elemento
+    //es mas grande que otro y si se debe ordenar de manera ascendente o descendente. Verificando que
+    //tanto el puntero pList como el puntero a la funcion pFunc sean distintos de NULL. Si la verificación falla (-1) caso contrario retorna (1).
+
+    if(this!= NULL && pFunc!= NULL)
+    {
+    returnAux=1;
+
+    if (order == 0) //ascendente
+    {
+
+    tam = this->size;
+
+     for(int i=0; i<tam-1; i++) //
+     {
+         if(pFunc(*(this->pElements+i), *(this->pElements+(i+1))))
+         {
+
+             al_push(aux, i,this->pElements+(i));
+
+             *(this->pElements+i)=*(this->pElements+(i+1));
+
+             *(this->pElements+(i+1))=*(aux->pElements+(i));
+
+
+
+
+         }
+
+
+      }
+    }
+      else // order == 1 desendente
+      {
+          for(int i=0; i<tam-1; i++) //
+     {
+         if(!pFunc(*(this->pElements+i), *(this->pElements+(i+1))))
+         {
+
+             al_push(aux, i,this->pElements+(i));
+
+             *(this->pElements+i)=*(this->pElements+(i+1));
+
+             *(this->pElements+(i+1))=*(aux->pElements+(i));
+
+
+
+
+         }
+
+
+      }
+      }
+
+    }
+
+
+
+
+
+
+
 
     return returnAux;
 }
