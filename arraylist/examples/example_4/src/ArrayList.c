@@ -245,17 +245,11 @@ int al_remove(ArrayList* this,int index)
         {
             *(this->pElements+i)=*(this->pElements+(i+1));
 
-
-
         }
         returnAux=0;
         this->size--;
 
-
-
     }
-
-
 
     return returnAux;
 }
@@ -273,9 +267,7 @@ int al_clear(ArrayList* this)
 
     if (this !=NULL )
     {
-
-
-        //*(this->pElements+index)= 0;
+      //*(this->pElements+index)= 0;
         free(this->pElements);
         this->size=0;
         returnAux=0;
@@ -297,15 +289,15 @@ ArrayList* al_clone(ArrayList* this)
 {
     ArrayList* returnAux = NULL;
 
-    returnAux = al_newArrayList();
 
-
-    if(this !=NULL && returnAux != NULL)
+    if(this !=NULL)
     {
+
+         returnAux = al_newArrayList();
 
         for(int i=0; i<this->size; i++)
         {
-            al_add(returnAux, this->pElements+i);
+            al_add(returnAux, *(this->pElements+i));
 
         }
 
@@ -355,6 +347,7 @@ int al_push(ArrayList* this, int index, void* pElement)
             for(int i=tam-1; i>=index; i--) //muevo todos los indices a 1 mas de atras hacia adelante
             {
                 *(this->pElements+(i+1))=*(this->pElements+i);
+
 
             }
 
