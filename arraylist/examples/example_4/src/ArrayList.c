@@ -527,9 +527,9 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 {
     int returnAux = -1;
 
-    ArrayList* aux;
+    void* aux;
 
-    aux = al_clone(this);
+    aux= (void*) malloc(sizeof(void));
 
     int tam=0;
     int comparo=0;
@@ -549,33 +549,44 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
     {
 
 
-     for(int i=0; i<tam-1; i++) //
+     for(int i=0; i<tam-1; i++)
      {
 
-         comparo = pFunc(*(this->pElements+i), *(this->pElements+(i+1)));
 
-         printf("%d %d taman %d\n", i, comparo, tam);
 
-         printf("%d %d\n", i,*(this->pElements+i));
 
-          printf("%d+1 %d\n", i,*(this->pElements+(i+1)));
+         for(int j=1; j<tam; j++)
+
+         //
+     {
+
+         comparo = pFunc(*(this->pElements+i), *(this->pElements+j));
 
 
 
          if(comparo==1) // A>B
          {
 
-         al_push(this, i, al_pop(this, i+1));
+        aux =*(this->pElements+i);
 
-         // *(this->pElements+i)= *(this->pElements+(i+1)); //el valor que punta pi lo igualo al mismo que apunto i+1
+        *(this->pElements+i)=*(this->pElements+j);
 
-        // *(this->pElements+(i+1))=*(aux->pElements+i);
+        *(this->pElements+j) = aux;
+
+        //al_remove(this, i+1);
+
+       // *(this->pElements+i)= *(this->pElements+j); //el valor que punta pi lo igualo al mismo que apunto i+1
+
+      //  *(this->pElements+j)=*(aux->pElements+i);
+
+
+
+
 
          }
+     }
 
-          printf("post %d %d\n", i,*(this->pElements+i));
 
-          printf("post %d+1 %d\n", i,*(this->pElements+(i+1)));
 
 
       }
@@ -586,38 +597,56 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
     }
     else if (order == 0) // order == 1 desendente
       {
-          for(int i=0; i<tam-1; i++) //
+
+
+     for(int i=0; i<tam-1; i++)
      {
-          comparo = pFunc(*(this->pElements+i), *(this->pElements+(i+1)));
+         for(int j=1; j<tam; j++)
 
-           printf("order == 1 %d %d\n", i, comparo);
+         //
+     {
 
-         printf("order == 1 %d %d\n", i,*(this->pElements+i));
+         comparo = pFunc(*(this->pElements+i), *(this->pElements+j));
 
-          printf("order == 1 %d+1 %d\n", i,*(this->pElements+(i+1)));
 
-          if(comparo==-1)
+
+
+         if(comparo==-1) // A<B
          {
 
-        al_push(this, i, al_pop(this, i+1));
+        aux =*(this->pElements+i);
 
-          //*(this->pElements+i)=*(this->pElements+(i+1));
+        printf ("i %d aux %d\n", i, aux);
 
-            // *(this->pElements+(i+1))=*(aux->pElements+(i));
+        *(this->pElements+i)=*(this->pElements+j);
 
+        *(this->pElements+j) = aux;
+
+
+         printf ("j%d %d\n", j,*(this->pElements+i));
+        //*(this->pElements+j)=al_pop(this, i);
+
+        //al_push(this, i, *(this->pElements+j));
+
+        //al_remove(this, i+1);
+
+
+         //*(this->pElements+i)= *(this->pElements+j); //el valor que punta pi lo igualo al mismo que apunto i+1
+
+         //*(this->pElements+j)=*(aux->pElements+i);
 
 
          }
 
-          printf("order == 1 post %d %d\n", i,*(this->pElements+i));
+          free(aux);
+     }
 
-          printf("order == 1 post %d+1 %d\n", i,*(this->pElements+(i+1)));
 
 
 
       }
 
-       free(aux);
+
 
        returnAux=0;
       }
