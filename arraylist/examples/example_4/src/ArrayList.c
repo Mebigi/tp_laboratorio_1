@@ -245,6 +245,8 @@ int al_remove(ArrayList* this,int index)
         {
             *(this->pElements+i)=*(this->pElements+(i+1));
 
+
+
         }
         returnAux=0;
         this->size--;
@@ -471,24 +473,25 @@ void* al_pop(ArrayList* this,int index)
  */
 ArrayList* al_subList(ArrayList* this,int from,int to)
 {
-    void* returnAux = NULL;
 
-    ArrayList* this2;
+    ArrayList* this2 = NULL;
 
-    this2 = al_newArrayList();
-
-
-     if (this !=NULL && (from <= this->size)  && (to >0) && to <from)
+    if(this!=NULL && to<=(this->size) && from>=0 && to>from)
     {
 
-        int j=0;
+        this2 = al_newArrayList();
 
-        for(int i=to; i<from; i++) //
+
+        //int j=0;
+
+        for(int i=from; i<to; i++) //
         {
-            j++;
-           *(this2->pElements+j) = *(this->pElements+i);
 
-            }
+            //*(this2->pElements+j) = *(this->pElements+i);
+
+            //j++;
+
+            al_add(this2, *(this->pElements+i));
 
 
 
@@ -497,8 +500,9 @@ ArrayList* al_subList(ArrayList* this,int from,int to)
 
 
 
+    }
 
-    return returnAux ;
+    return this2 ;
 }
 
 
@@ -623,14 +627,14 @@ int al_sort(ArrayList* this, int (*pFunc)(void*,void*), int order)
 
                         aux =*(this->pElements+i);
 
-                        printf ("i %d aux %d\n", i, aux);
+                        //printf ("i %d aux %d\n", i, aux);
 
                         *(this->pElements+i)=*(this->pElements+j);
 
                         *(this->pElements+j) = aux;
 
 
-                        printf ("j%d %d\n", j,*(this->pElements+i));
+                       // printf ("j%d %d\n", j,*(this->pElements+i));
 
 
                     }
