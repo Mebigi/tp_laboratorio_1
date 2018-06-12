@@ -541,9 +541,7 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
     if(this!= NULL && pFunc!= NULL)
     {
 
-
     tam = this->size;
-
 
     if (order == 1) //ascendente order int  [1] indicate UP - [0] indicate DOWN
     {
@@ -552,17 +550,11 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
      for(int i=0; i<tam-1; i++)
      {
 
-
-
-
-         for(int j=1; j<tam; j++)
-
+         for(int j=i+1; j<tam; j++)
          //
      {
 
          comparo = pFunc(*(this->pElements+i), *(this->pElements+j));
-
-
 
          if(comparo==1) // A>B
          {
@@ -573,11 +565,7 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 
         *(this->pElements+j) = aux;
 
-        //al_remove(this, i+1);
 
-       // *(this->pElements+i)= *(this->pElements+j); //el valor que punta pi lo igualo al mismo que apunto i+1
-
-      //  *(this->pElements+j)=*(aux->pElements+i);
 
 
 
@@ -601,7 +589,7 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 
      for(int i=0; i<tam-1; i++)
      {
-         for(int j=1; j<tam; j++)
+         for(int j=i+1; j<tam; j++)
 
          //
      {
@@ -624,16 +612,6 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 
 
          printf ("j%d %d\n", j,*(this->pElements+i));
-        //*(this->pElements+j)=al_pop(this, i);
-
-        //al_push(this, i, *(this->pElements+j));
-
-        //al_remove(this, i+1);
-
-
-         //*(this->pElements+i)= *(this->pElements+j); //el valor que punta pi lo igualo al mismo que apunto i+1
-
-         //*(this->pElements+j)=*(aux->pElements+i);
 
 
          }
