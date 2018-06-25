@@ -54,3 +54,17 @@
 	<stdlib.h>
 	"funciones.h"
 
+1525531080 source:c:\programacion1cuatri\tp_laboratorio_1\tp2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1525531080 c:\programacion1cuatri\tp_laboratorio_1\tp2\funciones.h
+
+1525543960 source:c:\programacion1cuatri\tp_laboratorio_1\tp2\funciones.c
+	"funciones.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+

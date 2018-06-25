@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../inc/ArrayList.h"
+#include "ArrayList.h"
 
 // funciones privadas
 int resizeUp(ArrayList* this);
@@ -490,12 +490,16 @@ int al_sort(ArrayList* this, int (*pFunc)(void*,void*), int order)
                     comparo = pFunc(*(this->pElements+i), *(this->pElements+j));
                     if((comparo==1 && order == 1) || (comparo==-1 && order == 0) ) // A>B
                     {
-                        aux =*(this->pElements+i);
+                       /* aux =*(this->pElements+i);
 
                         *(this->pElements+i)=*(this->pElements+j);
 
                         *(this->pElements+j) = aux;
+                        */
 
+                         aux=al_get(this, i);
+                         al_set(this, i, al_get(this, j));
+                         al_set(this, j, aux);
                     }
 
                 }
